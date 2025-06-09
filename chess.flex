@@ -33,20 +33,23 @@ WhiteSpace = [ \t\n\r]
 
 %%
 
-/* Regras de reconhecimento */
-{NumeroTurno}      { return symbol(sym.NUMERO_TURNO, yytext()); }
-{Reticencias}      { return symbol(sym.RETICENCIAS, yytext()); }
-{VitoriaBrancas}   { return symbol(sym.VITORIA_BRANCAS, yytext()); }
-{VitoriaPretas}    { return symbol(sym.VITORIA_PRETAS, yytext()); }
-{Empate}           { return symbol(sym.EMPATE, yytext()); }
 {RoqueGrande}      { return symbol(sym.ROQUE_GRANDE, yytext()); }
 {RoquePequeno}     { return symbol(sym.ROQUE_PEQUENO, yytext()); }
-{Promocao}         { return symbol(sym.PROMOCAO, yytext()); }
 {Xequemate}        { return symbol(sym.XEQUEMATE, yytext()); }
 {Xeque}            { return symbol(sym.XEQUE, yytext()); }
 {Captura}          { return symbol(sym.CAPTURA, yytext()); }
-{Peca}             { return symbol(sym.PECA, yytext()); }
-{Linha}            { return symbol(sym.LINHA, yytext()); }
-{Coluna}           { return symbol(sym.COLUNA, yytext()); }
-{WhiteSpace}       { /* Ignora whitespace */ }
-.                  { /* Ignora outros caracteres */ }
+{Promocao}         { return symbol(sym.PROMOCAO, yytext()); }
+
+{NumeroTurno}      { return symbol(sym.NUMERO_TURNO, yytext()); }
+{VitoriaBrancas}   { return symbol(sym.VITORIA_BRANCAS, yytext()); }
+{VitoriaPretas}    { return symbol(sym.VITORIA_PRETAS, yytext()); }
+{Empate}           { return symbol(sym.EMPATE, yytext()); }
+
+{Peca}             { return symbol(sym.PECA, yytext()); }    
+{Coluna}           { return symbol(sym.COLUNA, yytext()); }   
+{Linha}            { return symbol(sym.LINHA, yytext()); }    
+
+{WhiteSpace}       { /* Ignora */ }
+<<EOF>>            { return symbol(sym.EOF); }
+
+.                  { System.err.println("Caractere inválido: " + yytext()); }
