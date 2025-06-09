@@ -1,0 +1,88 @@
+import java_cup.runtime.*;
+
+terminal String LINHA, COLUNA, PECA;
+terminal String CAPTURA, XEQUE, XEQUEMATE, PROMOCAO;
+terminal String ROQUE_GRANDE, ROQUE_PEQUENO;
+terminal String NUMERO_TURNO;
+terminal String VITORIA_BRANCAS, VITORIA_PRETAS, EMPATE;
+
+non terminal partida, resultado, jogadas, lance, jogada;
+non terminal jogada_sem_final, jogada_com_final;
+non terminal movimento_base, movimentoPeao, movimentoPeca;
+non terminal promoção_opcional, desambiguidade_opcional, xeque_opcional;
+non terminal roque, destino;
+
+start with partida;
+
+partida ::= jogadas resultado EOF;
+
+resultado ::=
+      /* vazio */
+    | VITORIA_BRANCAS     /* 1-0 */
+    | VITORIA_PRETAS      /* 0-1 */
+    | EMPATE              /* 1/2-1/2 */
+;
+
+jogadas ::= 
+      lance
+    | jogadas lance
+;
+
+lance ::=
+      NUMERO_TURNO jogada jogada
+    | NUMERO_TURNO jogada
+;
+
+jogada ::=
+      jogada_sem_final
+    | jogada_com_final
+;
+
+jogada_sem_final ::= 
+      movimento_base xeque_opcional
+    | roque xeque_opcional
+;
+
+jogada_com_final ::= 
+      movimento_base XEQUEMATE
+    | roque XEQUEMATE
+;
+
+movimento_base ::= 
+      movimentoPeao
+    | movimentoPeca
+;
+
+movimentoPeao ::= 
+      destino promoção_opcional
+    | COLUNA CAPTURA destino promoção_opcional
+;
+
+movimentoPeca ::= 
+      PECA desambiguidade_opcional destino
+    | PECA desambiguidade_opcional CAPTURA destino
+;
+
+promoção_opcional ::= 
+      /* vazio */
+    | PROMOCAO PECA
+;
+
+desambiguidade_opcional ::= 
+      /* vazio */
+    | COLUNA 
+    | LINHA
+    | COLUNA LINHA
+;
+
+xeque_opcional ::= 
+      /* vazio */
+    | XEQUE
+;
+
+roque ::=
+      ROQUE_GRANDE
+    | ROQUE_PEQUENO
+;
+
+destino ::= COLUNA LINHA;
