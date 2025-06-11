@@ -1,6 +1,8 @@
 import java_cup.runtime.*;
+
 %%
 %class ChessLexer
+%debug
 %unicode
 %cup
 %line
@@ -18,6 +20,7 @@ import java_cup.runtime.*;
 /* Definições de padrões */
 Linha = [1-8]
 Coluna = [a-h]
+Posicao = {Coluna} {Linha}
 Peca = [KQRBN]
 Captura = "x"
 Xeque = "+"
@@ -48,6 +51,7 @@ WhiteSpace = [ \t\n\r]
 {Peca}             { return symbol(sym.PECA, yytext()); }    
 {Coluna}           { return symbol(sym.COLUNA, yytext()); }   
 {Linha}            { return symbol(sym.LINHA, yytext()); }    
+{Posicao}            { return symbol(sym.POSICAO, yytext()); }
 
 {WhiteSpace}       { /* Ignora */ }
 <<EOF>>            { return symbol(sym.EOF); }

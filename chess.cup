@@ -1,6 +1,6 @@
 import java_cup.runtime.*;
 
-terminal String LINHA, COLUNA, PECA,
+terminal String LINHA, COLUNA, PECA, POSICAO,
                 CAPTURA, XEQUE, XEQUEMATE, PROMOCAO,
                 ROQUE_GRANDE, ROQUE_PEQUENO,
                 NUMERO_TURNO,
@@ -10,7 +10,7 @@ non terminal partida, resultado, jogadas, lance, jogada,
              jogada_sem_final, jogada_com_final,
              movimento_base, movimentoPeao, movimentoPeca,
              promocao_opcional, xeque_opcional,
-             roque, posicao;
+             roque;
 
 start with partida;
 
@@ -54,17 +54,19 @@ movimento_base ::=
 ;
 
 movimentoPeao ::= 
-      posicao promocao_opcional
-    | COLUNA CAPTURA posicao promocao_opcional
+      POSICAO promocao_opcional
+    | COLUNA CAPTURA POSICAO promocao_opcional
 ;
 
 movimentoPeca ::= 
-      PECA posicao
-    | PECA LINHA posicao
-    | PECA COLUNA posicao
-    | PECA CAPTURA posicao
-    | PECA LINHA CAPTURA posicao
-    | PECA COLUNA CAPTURA posicao
+      PECA POSICAO
+    | PECA LINHA POSICAO
+    | PECA COLUNA POSICAO
+    | PECA COLUNA LINHA POSICAO
+    | PECA CAPTURA POSICAO
+    | PECA LINHA CAPTURA POSICAO
+    | PECA COLUNA CAPTURA POSICAO
+    | PECA COLUNA LINHA CAPTURA POSICAO
 ;
 
 promocao_opcional ::= 
@@ -81,5 +83,3 @@ roque ::=
       ROQUE_GRANDE
     | ROQUE_PEQUENO
 ;
-
-posicao ::= COLUNA LINHA;
