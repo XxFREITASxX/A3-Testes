@@ -9,8 +9,8 @@ terminal String LINHA, COLUNA, PECA,
 non terminal partida, resultado, jogadas, lance, jogada,
              jogada_sem_final, jogada_com_final,
              movimento_base, movimentoPeao, movimentoPeca,
-             promoção_opcional, xeque_opcional,
-             roque, destino;
+             promocao_opcional, xeque_opcional,
+             roque, posicao;
 
 start with partida;
 
@@ -54,20 +54,20 @@ movimento_base ::=
 ;
 
 movimentoPeao ::= 
-      destino promoção_opcional
-    | COLUNA CAPTURA destino promoção_opcional
+      posicao promocao_opcional
+    | COLUNA CAPTURA posicao promocao_opcional
 ;
 
 movimentoPeca ::= 
-      PECA destino
-    | PECA COLUNA destino
-    | PECA LINHA destino
-    | PECA CAPTURA destino
-    | PECA COLUNA CAPTURA destino
-    | PECA LINHA CAPTURA destino
+      PECA posicao
+    | PECA LINHA posicao
+    | PECA COLUNA posicao
+    | PECA CAPTURA posicao
+    | PECA LINHA CAPTURA posicao
+    | PECA COLUNA CAPTURA posicao
 ;
 
-promoção_opcional ::= 
+promocao_opcional ::= 
       /* vazio */
     | PROMOCAO PECA
 ;
@@ -82,4 +82,4 @@ roque ::=
     | ROQUE_PEQUENO
 ;
 
-destino ::= COLUNA LINHA;
+posicao ::= COLUNA LINHA;
