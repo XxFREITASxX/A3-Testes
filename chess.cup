@@ -10,7 +10,7 @@ non terminal partida, resultado, jogadas, lance, jogada,
              jogada_sem_final, jogada_com_final,
              movimento_base, movimentoPeao, movimentoPeca,
              promocao_opcional, xeque_opcional,
-             roque;
+             roque, desambiguidade;
 
 start with partida;
 
@@ -60,13 +60,15 @@ movimentoPeao ::=
 
 movimentoPeca ::= 
       PECA POSICAO
-    | PECA LINHA POSICAO
-    | PECA COLUNA POSICAO
-    | PECA COLUNA LINHA POSICAO
+    | PECA desambiguidade POSICAO
     | PECA CAPTURA POSICAO
-    | PECA LINHA CAPTURA POSICAO
-    | PECA COLUNA CAPTURA POSICAO
-    | PECA COLUNA LINHA CAPTURA POSICAO
+    | PECA desambiguidade CAPTURA POSICAO
+;
+
+desambiguidade ::=
+    COLUNA
+  | LINHA
+  | COLUNA LINHA
 ;
 
 promocao_opcional ::= 
