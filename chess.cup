@@ -59,14 +59,13 @@ movimentoPeao ::=
 ;
 
 movimentoPeca ::= 
-      PECA POSICAO
-    | PECA desambiguidade POSICAO
-    | PECA CAPTURA POSICAO
+     PECA desambiguidade POSICAO
     | PECA desambiguidade CAPTURA POSICAO
 ;
 
 desambiguidade ::=
-    COLUNA
+    /* vazio */
+  | COLUNA
   | LINHA
   | COLUNA LINHA
 ;
