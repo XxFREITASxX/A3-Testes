@@ -1,47 +1,45 @@
 @echo off
-setlocal
+echo ============================
+echo     Compilando o projeto
+echo ============================
 
-echo ================================
-echo == Analisador de Xadrez A3 ==
-echo ================================
-
-REM Caminhos dos JARs
+REM Ajuste os caminhos para os jars conforme seu projeto
 set JFLEX_JAR=lib\jflex-full-1.9.1.jar
-set JCUP_JAR=lib\java-cup-11b.jar
+set CUP_JAR=lib\java-cup-11b.jar
 
-echo ------------------------------
-echo == Gerando Lexer com JFlex ==
-echo ------------------------------
+echo Gerando lexer com JFlex...
 java -jar %JFLEX_JAR% chess.flex
 if errorlevel 1 (
-    echo Erro ao gerar o Lexer!
+    echo Erro ao gerar lexer com JFlex.
     pause
-    exit /b
+    exit /b 1
 )
 
-echo -------------------------------
-echo == Gerando Parser com JCup ==
-echo -------------------------------
-java -jar %JCUP_JAR% -parser Parser chess.cup
+echo Gerando parser com Java CUP...
+java -jar %CUP_JAR% -parser parserName chess.cup
 if errorlevel 1 (
-    echo Erro ao gerar o Parser!
+    echo Erro ao gerar parser com Java CUP.
     pause
-    exit /b
+    exit /b 1
 )
 
-echo ----------------------------
-echo == Compilando Arquivos .java ==
-echo ----------------------------
-javac -cp "lib\java-cup-11b-runtime.jar" *.java
+echo Compilando arquivos Java...
+javac *.java
 if errorlevel 1 (
-    echo Erro na compilação Java!
+    echo Erro ao compilar arquivos Java.
     pause
-    exit /b
+    exit /b 1
 )
 
-echo -------------------------
-echo == Executando Main.java ==
-echo -------------------------
-java -cp ".;lib\java-cup-11b-runtime.jar" Main chess.txt
-echo -------------------------
+echo Executando programa principal com argumento chess.txt...
+java Main chess.txt
+if errorlevel 1 (
+    echo Erro ao executar Main.
+    pause
+    exit /b 1
+)
+
+echo ============================
+echo       Processo concluido
+echo ============================
 pause
