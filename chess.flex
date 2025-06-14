@@ -2,7 +2,6 @@ import java_cup.runtime.*;
 
 %%
 %class ChessLexer
-%debug
 %unicode
 %cup
 %line

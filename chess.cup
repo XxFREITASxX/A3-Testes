@@ -7,9 +7,8 @@ terminal String LINHA, COLUNA, PECA, POSICAO,
                 VITORIA_BRANCAS, VITORIA_PRETAS, EMPATE;
 
 non terminal partida, resultado, jogadas, lance, jogada,
-             jogada_sem_final, jogada_com_final,
-             movimento_base, movimentoPeao, movimentoPeca,
-             promocao_opcional, xeque_opcional,
+             movimento, movimentoPeao, movimentoPeca,
+             promocao_opcional, sufixo,
              roque, desambiguidade;
 
 start with partida;
@@ -34,21 +33,11 @@ lance ::=
 ;
 
 jogada ::=
-      jogada_sem_final
-    | jogada_com_final
+      movimento sufixo
+    | roque sufixo
 ;
 
-jogada_sem_final ::= 
-      movimento_base xeque_opcional
-    | roque xeque_opcional
-;
-
-jogada_com_final ::= 
-      movimento_base XEQUEMATE
-    | roque XEQUEMATE
-;
-
-movimento_base ::= 
+movimento ::= 
       movimentoPeao
     | movimentoPeca
 ;
@@ -75,9 +64,10 @@ promocao_opcional ::=
     | PROMOCAO PECA
 ;
 
-xeque_opcional ::= 
+sufixo ::= 
       /* vazio */
     | XEQUE
+    | XEQUEMATE
 ;
 
 roque ::=
