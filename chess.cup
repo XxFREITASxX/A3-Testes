@@ -1,4 +1,7 @@
 import java_cup.runtime.*;
+import ast.*;
+import java.util.ArrayList;
+import java.util.List;
 
 terminal String LINHA, COLUNA, PECA, POSICAO,
                 CAPTURA, XEQUE, XEQUEMATE, PROMOCAO,
@@ -6,71 +9,145 @@ terminal String LINHA, COLUNA, PECA, POSICAO,
                 NUMERO_TURNO,
                 VITORIA_BRANCAS, VITORIA_PRETAS, EMPATE;
 
-non terminal partida, resultado, jogadas, lance, jogada,
-             movimento, movimentoPeao, movimentoPeca,
-             promocao_opcional, sufixo,
-             roque, desambiguidade;
+non terminal PartidaNode partida;
+non terminal PartidaNode.Resultado resultado;
+non terminal List<LanceNode> jogadas;
+non terminal LanceNode lance;
+non terminal JogadaNode jogada;
+non terminal MovimentoNode movimento;
+non terminal MovimentoNode movimentoPeao;
+non terminal MovimentoNode movimentoPeca;
+non terminal String desambiguidade;
+non terminal TipoPeca promocao_opcional;
+non terminal String sufixo;
+non terminal RoqueNode roque;
 
 start with partida;
 
-partida ::= jogadas resultado;
+partida ::= jogadas:j resultado:r
+    {: 
+        PartidaNode partida = new PartidaNode();
+        partida.getJogadas().addAll(j);
+        partida.setResultado(r);
+        RESULT = partida;
+    :}
+;
 
 resultado ::=
-      /* vazio */
-    | VITORIA_BRANCAS     /* 1-0 */
-    | VITORIA_PRETAS      /* 0-1 */
-    | EMPATE              /* 1/2-1/2 */
+      /* vazio */     {: RESULT = null; :}
+    | VITORIA_BRANCAS {: RESULT = PartidaNode.Resultado.VITORIA_BRANCAS; :}
+    | VITORIA_PRETAS  {: RESULT = PartidaNode.Resultado.VITORIA_PRETAS; :}
+    | EMPATE          {: RESULT = PartidaNode.Resultado.EMPATE; :}
 ;
 
 jogadas ::= 
-      lance
-    | jogadas lance
+      lance:l       {: 
+                        List<LanceNode> lista = new ArrayList<>();
+                        lista.add(l);
+                        RESULT = lista;
+                     :}
+    | jogadas:j lance:l {: j.add(l); RESULT = j; :}
 ;
 
-lance ::=
-      NUMERO_TURNO jogada jogada
-    | NUMERO_TURNO jogada
+lance ::= 
+      NUMERO_TURNO:n jogada:j1 jogada:j2
+        {: 
+            // Remove o ponto final do número do turno
+            String numStr = n.substring(0, n.length() - 1);
+            int num = Integer.parseInt(numStr);
+            RESULT = new LanceNode(num, j1, j2);
+        :}
+    | NUMERO_TURNO:n jogada:j
+        {: 
+            String numStr = n.substring(0, n.length() - 1);
+            int num = Integer.parseInt(numStr);
+            RESULT = new LanceNode(num, j, null);
+        :}
 ;
 
-jogada ::=
-      movimento sufixo
-    | roque sufixo
+jogada ::= 
+      movimento:m sufixo:s
+        {: 
+            m.setSufixo(s); // Aplica o sufixo (xeque/xequemate)
+            RESULT = m;
+        :}
+    | roque:r sufixo:s
+        {: 
+            r.setSufixo(s);
+            RESULT = r;
+        :}
 ;
 
 movimento ::= 
-      movimentoPeao
-    | movimentoPeca
+      movimentoPeao:mp {: RESULT = mp; :}
+    | movimentoPeca:mp  {: RESULT = mp; :}
 ;
 
 movimentoPeao ::= 
-      POSICAO promocao_opcional
-    | COLUNA CAPTURA POSICAO promocao_opcional
+      POSICAO:p promocao_opcional:promo
+        {: 
+            RESULT = new MovimentoNode(
+                TipoPeca.PEAO, // Peão
+                null,           // Sem desambiguação
+                false,          // Sem captura
+                p,              // Destino
+                promo           // Promoção
+            );
+        :}
+    | COLUNA:c CAPTURA POSICAO:p promocao_opcional:promo
+        {: 
+            RESULT = new MovimentoNode(
+                TipoPeca.PEAO,
+                c,     // Coluna de origem para desambiguação
+                true,  // Com captura
+                p,
+                promo
+            );
+        :}
 ;
 
 movimentoPeca ::= 
-     PECA desambiguidade POSICAO
-    | PECA desambiguidade CAPTURA POSICAO
+     PECA:peca desambiguidade:d POSICAO:p
+        {: 
+            RESULT = new MovimentoNode(
+                TipoPeca.fromSimbolo(peca),
+                d,      // Info de desambiguação
+                false,  // Sem captura
+                p,
+                null    // Sem promoção
+            );
+        :}
+    | PECA:peca desambiguidade:d CAPTURA POSICAO:p
+        {: 
+            RESULT = new MovimentoNode(
+                TipoPeca.fromSimbolo(peca),
+                d,
+                true,   // Com captura
+                p,
+                null
+            );
+        :}
 ;
 
 desambiguidade ::=
-    /* vazio */
-  | COLUNA
-  | LINHA
-  | COLUNA LINHA
+    /* vazio */    {: RESULT = null; :}
+  | COLUNA:c       {: RESULT = c; :}
+  | LINHA:l        {: RESULT = l; :}
+  | COLUNA:c LINHA:l {: RESULT = c + l; :}  // Combina coluna e linha
 ;
 
 promocao_opcional ::= 
-      /* vazio */
-    | PROMOCAO PECA
+      /* vazio */       {: RESULT = null; :}
+    | PROMOCAO PECA:p {: RESULT = TipoPeca.fromSimbolo(p); :}
 ;
 
 sufixo ::= 
-      /* vazio */
-    | XEQUE
-    | XEQUEMATE
+      /* vazio */    {: RESULT = null; :}
+    | XEQUE          {: RESULT = "+"; :}
+    | XEQUEMATE      {: RESULT = "#"; :}
 ;
 
 roque ::=
-      ROQUE_GRANDE
-    | ROQUE_PEQUENO
+      ROQUE_GRANDE   {: RESULT = new RoqueNode(true); :}  // O-O-O
+    | ROQUE_PEQUENO  {: RESULT = new RoqueNode(false); :} // O-O
 ;
