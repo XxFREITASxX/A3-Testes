@@ -19,7 +19,7 @@ import java_cup.runtime.*;
 /* Definições de padrões */
 Linha = [1-8]
 Coluna = [a-h]
-Posicao = {Coluna} {Linha}
+Posicao = {Coluna}{Linha}
 Peca = [KQRBN]
 Captura = "x"
 Xeque = "+"
@@ -30,7 +30,7 @@ RoqueGrande = "O-O-O"
 NumeroTurno = [1-9][0-9]*"."
 VitoriaBrancas = "1-0"
 VitoriaPretas = "0-1"
-Empate = "1/2-1/2"
+Empate = "1\/2-1\/2"
 WhiteSpace = [ \t\n\r]
 
 %%
@@ -50,7 +50,7 @@ WhiteSpace = [ \t\n\r]
 {Peca}             { return symbol(sym.PECA, yytext()); }    
 {Coluna}           { return symbol(sym.COLUNA, yytext()); }   
 {Linha}            { return symbol(sym.LINHA, yytext()); }    
-{Posicao}            { return symbol(sym.POSICAO, yytext()); }
+{Posicao}          { return symbol(sym.POSICAO, yytext()); }
 
 {WhiteSpace}       { /* Ignora */ }
 <<EOF>>            { return symbol(sym.EOF); }
