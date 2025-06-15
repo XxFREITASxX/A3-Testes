@@ -1,7 +1,6 @@
 package ast;
 
 import visitor.XadrezVisitor;
-import model.TipoSufixo;
 
 import ast.JogadaNode;  // Supondo que você tenha uma classe base JogadaNode
 
@@ -19,10 +18,6 @@ public class LanceNode extends ASTNode {
     @Override
     public void accept(XadrezVisitor visitor) {
         visitor.visit(this);
-        jogadaBrancas.accept(visitor);
-        if (jogadaPretas != null) {
-            jogadaPretas.accept(visitor);
-        }
     }
 
     // Getters

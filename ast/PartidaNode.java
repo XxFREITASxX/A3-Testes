@@ -29,7 +29,6 @@ public class PartidaNode extends ASTNode {
     @Override
     public void accept(XadrezVisitor visitor) {
         visitor.visit(this);
-        jogadas.forEach(lance -> lance.accept(visitor));
     }
 
     // Getters e Setters

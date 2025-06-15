@@ -48,4 +48,33 @@ public class MovimentoNode extends JogadaNode {
     public TipoPeca getPromocao() {
         return promocao;
     }
+
+    public String getNotacaoAlgebrica() {
+    StringBuilder notacao = new StringBuilder();
+    
+    // Adiciona a peça (exceto para peões)
+    if (peca != TipoPeca.PEAO) {
+        notacao.append(peca.toString().charAt(0)); // Ex: 'R' para Torre
+    }
+    
+    // Adiciona desambiguação (se houver)
+    if (desambiguidade != null) {
+        notacao.append(desambiguidade);
+    }
+    
+    // Adiciona captura
+    if (captura) {
+        notacao.append('x');
+    }
+    
+    // Adiciona destino
+    notacao.append(destino);
+    
+    // Adiciona promoção (se houver)
+    if (promocao != null) {
+        notacao.append('=').append(promocao.toString().charAt(0)); // Ex: 'Q' para Dama
+    }
+    
+    return notacao.toString();
+}
 }
