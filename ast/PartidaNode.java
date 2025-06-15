@@ -1,6 +1,6 @@
 package ast;
 
-import ast.visitor.XadrezVisitor;
+import visitor.XadrezVisitor;
 
 import java.util.ArrayList;
 import java.util.List;

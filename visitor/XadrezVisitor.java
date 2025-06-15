@@ -1,4 +1,4 @@
-package ast.visitor;
+package visitor;
 
 import ast.PartidaNode;
 import ast.LanceNode;

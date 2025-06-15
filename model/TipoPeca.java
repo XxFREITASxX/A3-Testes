@@ -1,6 +1,4 @@
-package ast;
-
-import ast.visitor.XadrezVisitor;
+package model;
 
 public enum TipoPeca {
     REI("K"),

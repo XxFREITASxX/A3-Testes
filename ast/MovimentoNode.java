@@ -1,6 +1,7 @@
 package ast;
 
-import ast.visitor.XadrezVisitor;
+import model.TipoPeca;
+import visitor.XadrezVisitor;
 
 public class MovimentoNode extends JogadaNode {
     private TipoPeca peca;          // Usando o enum (não mais String)

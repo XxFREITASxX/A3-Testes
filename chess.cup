@@ -1,5 +1,7 @@
 import java_cup.runtime.*;
 import ast.*;
+import model.*;
+import visitor.XadrezVisitor;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,13 +1,13 @@
-package ast;
+package model;
 
-public enum SufixoJogada {
+public enum TipoSufixo {
     XEQUE("+"),
     XEQUEMATE("#"),
     NENHUM(null);
 
     private final String simbolo;
 
-    SufixoJogada(String simbolo) {
+    TipoSufixo(String simbolo) {
         this.simbolo = simbolo;
     }
 
@@ -15,7 +15,7 @@ public enum SufixoJogada {
         return simbolo;
     }
     
-    public static SufixoJogada verificarSimbolo(String simbolo) {
+    public static TipoSufixo verificarSimbolo(String simbolo) {
         if (simbolo == null) return NENHUM;
         return switch (simbolo) {
             case "+" -> XEQUE;

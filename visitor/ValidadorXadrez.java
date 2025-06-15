@@ -1,7 +1,7 @@
-package ast.visitor;
+package visitor;
 
 import ast.*;
-import ast.enums.SufixoJogada;
+import model.TipoSufixo;
 import java.util.ArrayList;
 import java.util.List;
 

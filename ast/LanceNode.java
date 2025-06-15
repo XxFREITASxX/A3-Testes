@@ -1,6 +1,7 @@
 package ast;
 
-import ast.visitor.XadrezVisitor;
+import visitor.XadrezVisitor;
+import model.TipoSufixo;
 
 import ast.JogadaNode;  // Supondo que você tenha uma classe base JogadaNode
 

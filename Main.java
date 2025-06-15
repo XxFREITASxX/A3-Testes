@@ -1,5 +1,6 @@
 import java.io.FileReader;
 import ast.*;
+import model.*;
 import java_cup.runtime.*;
 
 public class Main {

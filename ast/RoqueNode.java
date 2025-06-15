@@ -1,6 +1,6 @@
 package ast;
 
-import ast.visitor.XadrezVisitor;
+import visitor.XadrezVisitor;
 
 public class RoqueNode extends JogadaNode {
     private boolean isRoqueGrande; // true = O-O-O (grande), false = O-O (pequeno)

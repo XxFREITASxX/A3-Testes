@@ -1,19 +1,20 @@
 package ast;
 
-import ast.visitor.XadrezVisitor;
+import model.TipoSufixo;
+import visitor.XadrezVisitor;
 
 public abstract class JogadaNode extends ASTNode {
-    protected SufixoJogada sufixo = SufixoJogada.NENHUM; 
+    protected TipoSufixo sufixo = TipoSufixo.NENHUM; 
 
     public void setSufixo(String simbolo) {
-        this.sufixo = SufixoJogada.verificarSimbolo(simbolo);
+        this.sufixo = TipoSufixo.verificarSimbolo(simbolo);
     }
 
     public boolean temXeque() {
-        return sufixo == SufixoJogada.XEQUE;
+        return sufixo == TipoSufixo.XEQUE;
     }
 
     public boolean temXequemate() {
-        return sufixo == SufixoJogada.XEQUEMATE;
+        return sufixo == TipoSufixo.XEQUEMATE;
     }
 }

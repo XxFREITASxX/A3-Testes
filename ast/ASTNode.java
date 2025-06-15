@@ -1,6 +1,6 @@
 package ast;
 
-import ast.visitor.XadrezVisitor;
+import visitor.XadrezVisitor;
 
 public abstract class ASTNode{
     public abstract void accept(XadrezVisitor visitor);
