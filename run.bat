@@ -16,7 +16,7 @@ if errorlevel 1 (
 )
 
 echo Gerando parser com Java CUP...
-java -jar %CUP_JAR% -parser parserName chess.cup
+java -jar %CUP_JAR% -parser ChessParser chess.cup
 if errorlevel 1 (
     echo Erro ao gerar parser com Java CUP.
     pause
