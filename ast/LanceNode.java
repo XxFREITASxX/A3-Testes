@@ -1,5 +1,7 @@
 package ast;
 
+import ast.visitor.XadrezVisitor;
+
 import ast.JogadaNode;  // Supondo que você tenha uma classe base JogadaNode
 
 public class LanceNode extends ASTNode {

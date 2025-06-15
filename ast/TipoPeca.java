@@ -1,5 +1,7 @@
 package ast;
 
+import ast.visitor.XadrezVisitor;
+
 public enum TipoPeca {
     REI("K"),
     RAINHA("Q"),

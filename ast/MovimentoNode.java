@@ -1,5 +1,7 @@
 package ast;
 
+import ast.visitor.XadrezVisitor;
+
 public class MovimentoNode extends JogadaNode {
     private TipoPeca peca;          // Usando o enum (não mais String)
     private String desambiguidade;  // Ex: "e" em "exd5" ou "1" em "R1a3"
