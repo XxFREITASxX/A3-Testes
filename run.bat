@@ -1,4 +1,5 @@
 @echo off
+cls
 echo ============================
 echo     Compilando o projeto
 echo ============================
