@@ -4,18 +4,18 @@ import model.TipoPeca;
 import visitor.XadrezVisitor;
 
 public class MovimentoNode extends JogadaNode {
-    private TipoPeca peca;          // Usando o enum (não mais String)
-    private String desambiguidade;  // Ex: "e" em "exd5" ou "1" em "R1a3"
-    private boolean captura;        // Indica se houve captura ("x")
-    private String destino;         // Casa de destino (ex: "f3")
-    private TipoPeca promocao;      // Peça promovida (ex: "Q" em "e8=Q") ou null
+    private TipoPeca peca;
+    private String desambiguidade;
+    private boolean captura;
+    private String destino;
+    private TipoPeca promocao;
 
     public MovimentoNode(
-        TipoPeca peca,             // Agora recebe TipoPeca, não String
+        TipoPeca peca,
         String desambiguidade,
         boolean captura,
         String destino,
-        TipoPeca promocao          // TipoPeca para promoção também
+        TipoPeca promocao
     ) {
         this.peca = peca;
         this.desambiguidade = desambiguidade;
@@ -52,27 +52,22 @@ public class MovimentoNode extends JogadaNode {
     public String getNotacaoAlgebrica() {
     StringBuilder notacao = new StringBuilder();
     
-    // Adiciona a peça (exceto para peões)
     if (peca != TipoPeca.PEAO) {
-        notacao.append(peca.toString().charAt(0)); // Ex: 'R' para Torre
+        notacao.append(peca.toString().charAt(0));
     }
     
-    // Adiciona desambiguação (se houver)
     if (desambiguidade != null) {
         notacao.append(desambiguidade);
     }
     
-    // Adiciona captura
     if (captura) {
         notacao.append('x');
     }
     
-    // Adiciona destino
     notacao.append(destino);
     
-    // Adiciona promoção (se houver)
     if (promocao != null) {
-        notacao.append('=').append(promocao.toString().charAt(0)); // Ex: 'Q' para Dama
+        notacao.append('=').append(promocao.toString().charAt(0));
     }
     
     return notacao.toString();

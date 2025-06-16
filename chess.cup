@@ -5,6 +5,30 @@ import visitor.XadrezVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
+parser code
+{:
+
+    public void syntax_error(Symbol s){
+        this.defineErro(s.left, s.right);
+    }
+
+    public void defineErro(int linha, int coluna, String texto){
+        ChessLexer lexer = (ChessLexer) this.getScanner();
+        lexer.defineErro(linha, coluna, texto);
+    }
+
+     public void defineErro(int linha, int coluna){
+        ChessLexer lexer = (ChessLexer) this.getScanner();
+        lexer.defineErro(linha, coluna);
+    }
+
+     public void defineErro(String texto){
+        ChessLexer lexer = (ChessLexer) this.getScanner();
+        lexer.defineErro(texto);
+    }
+
+:}
+
 terminal String LINHA, COLUNA, PECA, POSICAO,
                 CAPTURA, XEQUE, XEQUEMATE, PROMOCAO,
                 ROQUE_GRANDE, ROQUE_PEQUENO,
@@ -78,11 +102,22 @@ jogada ::=
             r.setSufixo(s);
             RESULT = r;
         :}
+    | error {:
+        defineErro("Jogada inválida");
+        RESULT = new MovimentoNode(
+            TipoPeca.PEAO,  
+            null,           
+            false,       
+            "a1",           
+            null         
+        );
+      :}
 ;
 
 movimento ::= 
       movimentoPeao:mp {: RESULT = mp; :}
     | movimentoPeca:mp  {: RESULT = mp; :}
+  
 ;
 
 movimentoPeao ::= 

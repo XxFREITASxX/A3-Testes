@@ -2,12 +2,12 @@ package ast;
 
 import visitor.XadrezVisitor;
 
-import ast.JogadaNode;  // Supondo que você tenha uma classe base JogadaNode
+import ast.JogadaNode;
 
 public class LanceNode extends ASTNode {
     private int numeroTurno;
     private JogadaNode jogadaBrancas;
-    private JogadaNode jogadaPretas;  // Pode ser null se for o último lance
+    private JogadaNode jogadaPretas;
 
     public LanceNode(int numeroTurno, JogadaNode jogadaBrancas, JogadaNode jogadaPretas) {
         this.numeroTurno = numeroTurno;
@@ -20,7 +20,6 @@ public class LanceNode extends ASTNode {
         visitor.visit(this);
     }
 
-    // Getters
     public int getNumeroTurno() {
         return numeroTurno;
     }
