@@ -4,7 +4,6 @@ echo ============================
 echo     Compilando o projeto
 echo ============================
 
-REM Ajuste os caminhos para os jars conforme seu projeto
 set JFLEX_JAR=lib\jflex-full-1.9.1.jar
 set CUP_JAR=lib\java-cup-11b.jar
 
